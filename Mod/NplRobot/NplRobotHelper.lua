@@ -146,6 +146,7 @@ function NplRobotHelper.WriteFile(filename,s)
     if(not s)then
        return 
     end
+    ParaIO.CreateDirectory(filename);
     local file = ParaIO.open(filename,"w");
     if(file:IsValid()) then
         file:write(s,#s);

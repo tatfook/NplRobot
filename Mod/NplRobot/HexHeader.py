@@ -85,13 +85,7 @@ class PCA9685():
         i2c.write(self.address, bytearray([ALL_LED_OFF_H, off >> 8]))
 
 
-def servo(channel,value):
-    if(not pca):
-        return
-    channel = int(channel)
-    us = (value * 1800 / 180 + 600) # 0.6 ~ 2.4
-    pwm = us * 4096 / 20000
-    pca.set_pwm(channel, 0, pwm)
+
 
 def GetImage_Str(matrix_sequence_str):
 	"""
@@ -125,3 +119,31 @@ def GetImage(matrix_sequence_str):
 
 pca = PCA9685(microbit.i2c)
 pca.set_pwm_freq(60)
+
+
+def microbit_servo(bone_name, axis, value, channel):
+    if(not pca):
+        return
+    channel = int(channel)
+    us = (value * 1800 / 180 + 600) # 0.6 ~ 2.4
+    pwm = us * 4096 / 20000
+    pca.set_pwm(channel, 0, pwm)
+
+def microbit_sleep(time):
+    microbit.sleep(time)
+
+def microbit_is_pressed(btn):
+    if(btn == "A"):
+        return microbit.button_a.is_pressed()
+    elif(btn == "B"):
+        return microbit.button_b.is_pressed()
+
+def microbit_display_show(matrix_sequence_str):
+    img = GetImage(matrix_sequence_str)
+    microbit.display.show(img)
+
+def microbit_display_scroll(txt):
+    microbit.display.scroll(txt)
+
+def microbit_display_clear():
+    microbit.display.clear()
